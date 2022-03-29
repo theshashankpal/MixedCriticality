@@ -1,0 +1,16 @@
+[
+  {
+    "taskName" : "T1",
+    "period" : 5000,
+    "deadline" : 5000,
+    "WCET" : 3000,
+    "backup_WCET" : 1000
+  },
+  {
+    "taskName" : "T2",
+    "period" : 3000,
+    "deadline" : 3000 ,
+    "WCET" : 2000,
+    "backup_WCET" : 1000
+  }
+]
