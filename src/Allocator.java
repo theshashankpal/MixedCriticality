@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -78,5 +80,40 @@ public class Allocator implements Runnable{
         }
         if(flag != 1)
             throw new NoTimeLeft("No processor has an adequate amount of time left");
+    }
+
+    public boolean allocate(List<Task> taskList, List<List<Task>> allocatedList)
+    {
+        // list[0] for WCET and list[1] for backup_WCET
+        List<Pair<Double>> utilizationRatio = new ArrayList<>();
+
+        // Finding out the utilzation ratio.
+        for(Task task : taskList)
+        {
+            double period = task.period;
+            double WCET = task.WCET;
+            double backup_WCET = task.backup_WCET;
+            double utilization_WCET = WCET / period;
+            double utilization_backup_WCET = backup_WCET / period;
+            Pair temp = new Pair(utilization_WCET,utilization_backup_WCET);
+
+            utilizationRatio.add(temp);
+        }
+
+        Collections.sort(utilizationRatio);
+
+        System.out.println(utilizationRatio);
+
+        // Assuming we've 4 processors and at start each processor have 1.0 usage available.
+        List<Double> processors_available_usage = new ArrayList<>();
+
+        for(int i = 0 ; i < 4; i++)
+        {
+            processors_available_usage.add(1.0);
+        }
+
+
+
+        return false;
     }
 }

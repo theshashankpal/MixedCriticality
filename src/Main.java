@@ -19,7 +19,7 @@ public class Main {
     public static void main(String[] args) throws InterruptedException, FileNotFoundException {
 
         // creating processors;
-        Thread allocator = new Thread(new Allocator());
+//        Thread allocator = new Thread(new Allocator());
 
 
         System.out.println("Allocator has been created");
@@ -37,7 +37,11 @@ public class Main {
         System.out.println(list);
         System.out.println("HyperPeriod : "+hyperPeriod);
 
+        // Call Allocator
+        List<List<Task>> allocatedList = new ArrayList<>();
 
+        Allocator allocator = new Allocator();
+        allocator.allocate(list,allocatedList);
 
 //        latch = new CountDownLatch(1);
 //

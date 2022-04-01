@@ -1,18 +1,27 @@
-public class Pair{
-        int x;
-        int y;
+public class Pair <T> implements Comparable<Pair<T>>{
+    T first;
+    T second;
 
-        public Pair(int x, int y){
-            this.x = x;
-            this.y = y;
-        }
 
-        @Override
-        public boolean equals(Object temp)
-        {
-            Pair p = (Pair) temp;
-            if(this.x == p.x && this.y == p.y)
-                return true;
-            return false;
-        }
+    public Pair(T first, T second)
+    {
+        this.first = first;
+        this.second = second;
     }
+
+
+
+    @Override
+    public int compareTo(Pair<T> o) {
+        return (int)((double) this.first - (double)o.first);
+    }
+
+    @Override
+    public String toString() {
+        return "Pair{" +
+                "first=" + first +
+                ", second=" + second +
+                '}';
+    }
+}
+
