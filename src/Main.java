@@ -16,7 +16,7 @@ public class Main {
     static final Object object = new Object();
     static CountDownLatch latch;
 
-    public static void main(String[] args) throws InterruptedException, FileNotFoundException {
+    public static void main(String[] args) throws InterruptedException, FileNotFoundException, NoTimeLeft {
 
         // creating processors;
 //        Thread allocator = new Thread(new Allocator());
@@ -37,11 +37,38 @@ public class Main {
         System.out.println(list);
         System.out.println("HyperPeriod : "+hyperPeriod);
 
-        // Call Allocator
-        List<List<Task>> allocatedList = new ArrayList<>();
+        // Designing a DS to store tasks that are allcoated to processors.
+        List<List<List<Task>>> allocatedList = new ArrayList<>();
+        List<List<Task>> processor1 = new ArrayList<>();
+        List<List<Task>> processor2 = new ArrayList<>();
+        List<List<Task>> processor3 = new ArrayList<>();
+        List<List<Task>> processor4 = new ArrayList<>();
+        allocatedList.add(processor1);
+        allocatedList.add(processor2);
+        allocatedList.add(processor3);
+        allocatedList.add(processor4);
 
+        for(int i = 0 ; i < 4 ; i ++)
+        {
+            List<Task> primary_task = new ArrayList<>();
+            List<Task> backup_task = new ArrayList<>();
+            allocatedList.get(i).add(primary_task);
+            allocatedList.get(i).add(backup_task);
+        }
+
+
+        // Call Allocator
         Allocator allocator = new Allocator();
         allocator.allocate(list,allocatedList);
+
+        for(int i = 0 ; i < 4 ; i++)
+        {
+            System.out.println("Processor : "+ (i+1));
+            System.out.println("Active Task List : "+allocatedList.get(i).get(0));
+            System.out.println("Backup Task List : "+allocatedList.get(i).get(1));
+            System.out.println("#############");
+        }
+//        System.out.println(allocatedList);
 
 //        latch = new CountDownLatch(1);
 //

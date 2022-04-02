@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 
 public class Allocator implements Runnable{
@@ -82,12 +79,12 @@ public class Allocator implements Runnable{
             throw new NoTimeLeft("No processor has an adequate amount of time left");
     }
 
-    public boolean allocate(List<Task> taskList, List<List<Task>> allocatedList)
-    {
-        // list[0] for WCET and list[1] for backup_WCET
-        List<Pair<Double>> utilizationRatio = new ArrayList<>();
+    public void allocate(List<Task> taskList, List<List<List<Task>>> allocatedList) throws NoTimeLeft {
 
-        // Finding out the utilzation ratio.
+        // Pair.first = WCET and Pair.second = backup_WCET
+//        List<Pair<Double>> utilizationRatio = new ArrayList<>();
+
+        // Finding out the utilization ratio.
         for(Task task : taskList)
         {
             double period = task.period;
@@ -95,14 +92,30 @@ public class Allocator implements Runnable{
             double backup_WCET = task.backup_WCET;
             double utilization_WCET = WCET / period;
             double utilization_backup_WCET = backup_WCET / period;
-            Pair temp = new Pair(utilization_WCET,utilization_backup_WCET);
-
-            utilizationRatio.add(temp);
+            task.utilization_WCET = utilization_WCET;
+            task.utilization_backup_WCET = utilization_backup_WCET;
         }
 
-        Collections.sort(utilizationRatio);
+        // Sorting based on utilization ratio
+        Collections.sort(taskList,new Comparator<Task>(){
+            @Override
+            public int compare(Task o1, Task o2) {
+                double compare = o1.utilization_WCET - o2.utilization_WCET;
+                if(compare > 0)
+                    return 1;
+                else if (compare == 0)
+                    return 0;
+                else
+                    return -1;
+            }
+        });
 
-        System.out.println(utilizationRatio);
+        for(Task temp : taskList)
+        {
+            System.out.println("Task Name : "+temp.taskName + " : "+ temp.utilization_WCET+ " : "+temp.utilization_backup_WCET);
+        }
+
+        System.out.println(taskList);
 
         // Assuming we've 4 processors and at start each processor have 1.0 usage available.
         List<Double> processors_available_usage = new ArrayList<>();
@@ -112,8 +125,64 @@ public class Allocator implements Runnable{
             processors_available_usage.add(1.0);
         }
 
+        // Allocating to processors using first fit.
+        for(int k = 0 ; k < taskList.size() ; k++)
+        {
+            double utilization_WCET = taskList.get(k).utilization_WCET;
+            double utilization_backup_WCET = taskList.get(k).utilization_backup_WCET;
+
+            int inner_check = 0;
+            int outer_check = 0;
+
+            for(int i = 0 ; i < 4 ; i++)
+            {
+                if(processors_available_usage.get(i) >= utilization_WCET)
+                {
+                    outer_check = 1;
+                    // Trying to allocate backup task
+                    for(int j = 0 ; j < 4; j++)
+                    {
+                        // Primary and backup task should not be allocated to the same processors.
+                        if(i!=j)
+                        {
+                            if(processors_available_usage.get(j)>=utilization_backup_WCET)
+                            {
+                                inner_check = 1;
+
+                                double outer_processor = processors_available_usage.get(i) - utilization_WCET;
+                                double inner_processor = processors_available_usage.get(j) - utilization_backup_WCET;
+
+                                processors_available_usage.set(i,outer_processor);
+                                processors_available_usage.set(j,inner_processor);
+
+                                List<List<Task>> outer_processor_taskList = allocatedList.get(i);
+                                List<List<Task>> inner_processor_taskList = allocatedList.get(j);
+
+                                outer_processor_taskList.get(0).add(taskList.get(k)); // adding to primary task list.
+                                inner_processor_taskList.get(1).add(taskList.get(k)); // adding to backup task list.
+
+                                break;
+                            }
+                        }
+                    }
+
+                    if(inner_check != 1)
+                        throw new NoTimeLeft("Not able to allocate backup_task");
+                    else
+                    {
+                        inner_check = 0;
+                        break;
+                    }
+                }
+            }
+
+            if(outer_check != 1)
+                throw new NoTimeLeft("Not able to allocate primary_task");
+            else
+                outer_check = 0;
+        }
 
 
-        return false;
+        System.out.println(processors_available_usage);
     }
 }
