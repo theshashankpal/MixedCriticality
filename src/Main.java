@@ -38,37 +38,55 @@ public class Main {
         System.out.println("HyperPeriod : "+hyperPeriod);
 
         // Designing a DS to store tasks that are allcoated to processors.
-        List<List<List<Task>>> allocatedList = new ArrayList<>();
-        List<List<Task>> processor1 = new ArrayList<>();
-        List<List<Task>> processor2 = new ArrayList<>();
-        List<List<Task>> processor3 = new ArrayList<>();
-        List<List<Task>> processor4 = new ArrayList<>();
-        allocatedList.add(processor1);
-        allocatedList.add(processor2);
-        allocatedList.add(processor3);
-        allocatedList.add(processor4);
+//        List<List<List<Task>>> allocatedList = new ArrayList<>();
+//        List<List<Task>> processor1 = new ArrayList<>();
+//        List<List<Task>> processor2 = new ArrayList<>();
+//        List<List<Task>> processor3 = new ArrayList<>();
+//        List<List<Task>> processor4 = new ArrayList<>();
+//        allocatedList.add(processor1);
+//        allocatedList.add(processor2);
+//        allocatedList.add(processor3);
+//        allocatedList.add(processor4);
+//
+//        for(int i = 0 ; i < 4 ; i ++)
+//        {
+//            List<Task> primary_task = new ArrayList<>();
+//            List<Task> backup_task = new ArrayList<>();
+//            allocatedList.get(i).add(primary_task);
+//            allocatedList.get(i).add(backup_task);
+//        }
+//
+//
+//        // Call Allocator
+//        Allocator allocator = new Allocator();
+//        allocator.allocate(list,allocatedList);
+//
+//        for(int i = 0 ; i < 4 ; i++)
+//        {
+//            System.out.println("Processor : "+ (i+1));
+//            System.out.println("Active Task List : "+allocatedList.get(i).get(0));
+//            System.out.println("Backup Task List : "+allocatedList.get(i).get(1));
+//            System.out.println("#############");
+//        }
+//        System.out.println(allocatedList);
 
-        for(int i = 0 ; i < 4 ; i ++)
-        {
-            List<Task> primary_task = new ArrayList<>();
-            List<Task> backup_task = new ArrayList<>();
-            allocatedList.get(i).add(primary_task);
-            allocatedList.get(i).add(backup_task);
-        }
 
+        // Designing a general DS which will store tasks and their backup tasks allocated to which processors.
 
-        // Call Allocator
+        List<List<Map<String,Integer>>> allocatedList = new ArrayList<>();
+
         Allocator allocator = new Allocator();
         allocator.allocate(list,allocatedList);
 
-        for(int i = 0 ; i < 4 ; i++)
+        for(int i = 0 ; i < allocatedList.size() ; i++)
         {
             System.out.println("Processor : "+ (i+1));
             System.out.println("Active Task List : "+allocatedList.get(i).get(0));
             System.out.println("Backup Task List : "+allocatedList.get(i).get(1));
             System.out.println("#############");
         }
-//        System.out.println(allocatedList);
+
+//                System.out.println(allocatedList);
 
 //        latch = new CountDownLatch(1);
 //
@@ -82,6 +100,8 @@ public class Main {
 //                Thread temp1 = new Thread(new Jobs(temp.period, temp.deadline, temp.WCET, temp.backup_WCET, temp.taskName));
 //                temp1.start();
 //            }
+
+
     }
 
     private static double findHyperPeriod(List<Task> list) {

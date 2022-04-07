@@ -1,11 +1,15 @@
+import java.util.List;
+
 public class Task implements Comparable<Task> {
     String taskName;
     double period;
     double deadline;
     double WCET;
-    double backup_WCET;
+    List<Double> backup_WCET;
+    double utilization_WCET;
+    List<Double> utilization_backup_WCET;
 
-    public Task(double period, double deadline, double WCET, double backup_WCET, String taskName){
+    public Task(double period, double deadline, double WCET, List<Double> backup_WCET, String taskName){
         this.deadline = deadline;
         this.period = period;
         this.WCET = WCET;
@@ -19,10 +23,10 @@ public class Task implements Comparable<Task> {
     public String toString() {
         return "Task{" +
                 "taskName='" + taskName + '\'' +
-                ", period=" + period +
-                ", deadline=" + deadline +
-                ", WCET=" + WCET +
-                ", backup_WCET=" + backup_WCET +
+//                ", period=" + period +
+//                ", deadline=" + deadline +
+//                ", WCET=" + WCET +
+//                ", backup_WCET=" + backup_WCET +
                 '}';
     }
 
