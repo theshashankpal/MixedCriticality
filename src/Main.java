@@ -86,6 +86,21 @@ public class Main {
             System.out.println("#############");
         }
 
+
+        // Allocating criticality_distributed
+
+        List<Processor> criticality_allocated_list = new ArrayList<>();
+        allocator.criticality_Distributed(criticality_allocated_list,list);
+
+        System.out.println("With Criticality Distributed");
+        for(int i = 0 ; i < criticality_allocated_list.size() ; i++)
+        {
+            System.out.println("Processor : "+ (i+1));
+            System.out.println("Active Task List : "+criticality_allocated_list.get(i).active_map);
+            System.out.println("Backup Task List : "+criticality_allocated_list.get(i).backup_map);
+            System.out.println("#############");
+        }
+
 //                System.out.println(allocatedList);
 
 //        latch = new CountDownLatch(1);

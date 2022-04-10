@@ -14,7 +14,7 @@ public class Allocator implements Runnable{
     @Override
     public void run() {
         synchronized (Main.object) {
-            Processors processors = new Processors();
+            Processor processors = new Processor();
             for (int i = 0; i < 4; i++) {
                 processors.generateProcessors((long) (Math.random() * multiple), processorsList);
             }
@@ -127,6 +127,9 @@ public class Allocator implements Runnable{
             }
         }
 
+        System.out.println("Processor usage available : ");
+        System.out.println(processors_available_usage);
+
     }
 
     private void tryToAllocate(List<List<Map<String,Integer>>> allocatedList, List<Double> processors_available_usage, int primary,double utilization_ratio, Task task, int backup_task_number){
@@ -190,7 +193,108 @@ public class Allocator implements Runnable{
 
         }
 
+    public void criticality_Distributed(List<Processor> processors_list,List<Task> taskList)
+    {
+        // Have already calculated utilization before, so need to calculate it again
+
+        List<Double> processors_available_usage = new ArrayList<>();
+
+        taskList.sort(new Comparator<Task>() {
+            @Override
+            public int compare(Task o1, Task o2) {
+                return o2.criticality_level - o1.criticality_level;
+            }
+        });
+
+        System.out.println(taskList);
+        // Using Min_Heap to get the processor with the lowest criticality_number
+        PriorityQueue<Processor> pq = new PriorityQueue<>(new Comparator<Processor>() {
+            @Override
+            public int compare(Processor o1, Processor o2) {
+                int compare = o1.criticality_number - o2.criticality_number;
+                return compare;
+            }
+        });
+
+        // Allocation starts
+        for(Task task : taskList)
+        {
+            // First will try to allocate primary task
+            try_to_allocate_criticality_distributed(processors_list,pq,1,task.utilization_WCET,task,0);
+
+            // Second will try to allocate all the backup task of the current task
+            List<Double> backup_task = task.utilization_backup_WCET;
+            for(int i = 0 ; i < backup_task.size();i++) {
+                try_to_allocate_criticality_distributed(processors_list, pq, 0, backup_task.get(i), task, i);
+            }
+        }
+
+
     }
+
+    private void try_to_allocate_criticality_distributed(List<Processor> processors_list,PriorityQueue<Processor> pq,int primary,double utilization_ratio, Task task, int backup_task_number)
+    {
+        int check = 0;
+
+        if(pq.size()!=0)
+        {
+            List<Processor> temp = new ArrayList<>();
+            while(pq.size()!=0)
+            {
+                Processor temp1 = pq.remove();
+                temp.add(temp1);
+                if(temp1.available_usage >= utilization_ratio)
+                {
+                    if(!(temp1.active_map.containsKey(task.taskName)) && !(temp1.backup_map.containsKey(task.taskName)))
+                    {
+                        check = 1;
+                        if(primary == 1)
+                        {
+                            temp1.active_map.put(task.taskName,-1);
+                            temp1.available_usage = temp1.available_usage - utilization_ratio;
+                            temp1.criticality_number += task.criticality_level;
+                            break;
+                        }
+                        else
+                        {
+                            check = 1;
+                            temp1.backup_map.put(task.taskName, backup_task_number);
+                            temp1.criticality_number += task.criticality_level;
+                            temp1.available_usage = temp1.available_usage - utilization_ratio;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            pq.addAll(temp);
+        }
+
+
+        if(check == 0)
+        {
+            Processor processor = new Processor();
+
+            if(primary == 1)
+            {
+                processor.active_map.put(task.taskName,-1);
+                processor.criticality_number += task.criticality_level;
+                pq.add(processor);
+                processor.available_usage = processor.available_usage - utilization_ratio;
+            }
+            else
+            {
+                processor.backup_map.put(task.taskName, backup_task_number);
+                processor.criticality_number += task.criticality_level;
+                processor.available_usage = processor.available_usage - utilization_ratio;
+                pq.add(processor);
+            }
+
+            processors_list.add(processor);
+        }
+    }
+
+}
 
 //    public void allocate(List<Task> taskList, List<List<List<Task>>> allocatedList) throws NoTimeLeft {
 //
