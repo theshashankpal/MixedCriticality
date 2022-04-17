@@ -4,13 +4,13 @@ public class Task implements Comparable<Task> {
     String taskName;
     double period;
     double deadline;
-    double WCET;
-    List<Double> backup_WCET;
-    double utilization_WCET;
-    List<Double> utilization_backup_WCET;
+    List<Double> WCET;
+    List<List<Double>> backup_WCET;
+    List<Double> utilization_WCET;
+    List<List<Double>> utilization_backup_WCET;
     int criticality_level;
 
-    public Task(double period, double deadline, double WCET, List<Double> backup_WCET, String taskName,int criticality_level){
+    public Task(double period, double deadline, List<Double> WCET, List<List<Double>> backup_WCET, String taskName,int criticality_level){
         this.deadline = deadline;
         this.period = period;
         this.WCET = WCET;
@@ -27,8 +27,8 @@ public class Task implements Comparable<Task> {
                 "taskName='" + taskName + '\'' +
 //                ", period=" + period +
 //                ", deadline=" + deadline +
-//                ", WCET=" + WCET +
-//                ", backup_WCET=" + backup_WCET +
+                ", WCET=" + WCET +
+                ", backup_WCET=" + backup_WCET +
                 '}';
     }
 

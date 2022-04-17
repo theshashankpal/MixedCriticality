@@ -3,16 +3,16 @@
     "taskName" : "T1",
     "period" : 5000,
     "deadline" : 5000,
-    "WCET" : 3000,
-    "backup_WCET" : [1000,2000,2500],
-    "criticality_level" : 7
+    "WCET" : [2500,3000],
+    "backup_WCET" : [[500,1000],[1500,2000],[2000,2500]],
+    "criticality_level" : 2
   },
   {
     "taskName" : "T2",
     "period" : 3000,
     "deadline" : 3000 ,
-    "WCET" : 2000,
-    "backup_WCET" : [1000,1500,2000],
-    "criticality_level" : 4
+    "WCET" : [2000,1500],
+    "backup_WCET" : [[500,1000],[1000,1500],[1500,2000]],
+    "criticality_level" : 1
   }
 ]

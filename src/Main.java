@@ -24,17 +24,17 @@ public class Main {
 
         System.out.println("Allocator has been created");
 
-        // reading tasks from json , and storing them in the list.
+        // reading tasks from json , and storing them in the taskList.
         File file = new File("C:\\Users\\Shashank Pal\\Dropbox\\IntelliJ Projects\\MixedCriticality\\src\\tasks.json");
         FileReader fileReader = new FileReader(file);
         Gson gson = new Gson();
-        List<Task> list= Arrays.asList(gson.fromJson(fileReader,Task[].class));
+        List<Task> taskList= Arrays.asList(gson.fromJson(fileReader,Task[].class));
 
-        double hyperPeriod = findHyperPeriod(list); // calculating hyperPeriod.
+        double hyperPeriod = findHyperPeriod(taskList); // calculating hyperPeriod.
 
-        System.out.println("Tasks has been read from json and the list is : ");
-        Collections.sort(list);
-        System.out.println(list);
+        System.out.println("Tasks has been read from json and the taskList is : ");
+        Collections.sort(taskList);
+        System.out.println(taskList);
         System.out.println("HyperPeriod : "+hyperPeriod);
 
         // Designing a DS to store tasks that are allcoated to processors.
@@ -59,7 +59,7 @@ public class Main {
 //
 //        // Call Allocator
 //        Allocator allocator = new Allocator();
-//        allocator.allocate(list,allocatedList);
+//        allocator.allocate(taskList,allocatedList);
 //
 //        for(int i = 0 ; i < 4 ; i++)
 //        {
@@ -73,16 +73,18 @@ public class Main {
 
         // Designing a general DS which will store tasks and their backup tasks allocated to which processors.
 
-        List<List<Map<String,Integer>>> allocatedList = new ArrayList<>();
+        // ************************************************************
+
+        List<Processor> first_fit_allocated_list= new ArrayList<>();
 
         Allocator allocator = new Allocator();
-        allocator.allocate(list,allocatedList);
+        allocator.allocate(taskList,first_fit_allocated_list);
 
-        for(int i = 0 ; i < allocatedList.size() ; i++)
+        for(int i = 0 ; i < first_fit_allocated_list.size() ; i++)
         {
             System.out.println("Processor : "+ (i+1));
-            System.out.println("Active Task List : "+allocatedList.get(i).get(0));
-            System.out.println("Backup Task List : "+allocatedList.get(i).get(1));
+            System.out.println("Active Task List : "+first_fit_allocated_list.get(i).active_map);
+            System.out.println("Backup Task List : "+first_fit_allocated_list.get(i).backup_map);
             System.out.println("#############");
         }
 
@@ -90,7 +92,7 @@ public class Main {
         // Allocating criticality_distributed
 
         List<Processor> criticality_allocated_list = new ArrayList<>();
-        allocator.criticality_Distributed(criticality_allocated_list,list);
+        allocator.criticality_Distributed(criticality_allocated_list,taskList);
 
         System.out.println("With Criticality Distributed");
         for(int i = 0 ; i < criticality_allocated_list.size() ; i++)
@@ -101,6 +103,8 @@ public class Main {
             System.out.println("#############");
         }
 
+        // ************************************************************
+
 //                System.out.println(allocatedList);
 
 //        latch = new CountDownLatch(1);
@@ -110,7 +114,7 @@ public class Main {
 //
 //        System.out.println("Allocator has been started");
 //
-//            for (Task temp : list) {
+//            for (Task temp : taskList) {
 //                System.out.println("Inside task loop");
 //                Thread temp1 = new Thread(new Jobs(temp.period, temp.deadline, temp.WCET, temp.backup_WCET, temp.taskName));
 //                temp1.start();
