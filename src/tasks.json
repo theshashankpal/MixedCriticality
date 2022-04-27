@@ -1,18 +1,134 @@
 [
   {
     "taskName" : "T1",
-    "period" : 5000,
-    "deadline" : 5000,
+    "period" : 4000,
+    "deadline" : 4000,
     "WCET" : [2500,3000],
     "backup_WCET" : [[500,1000],[1500,2000],[2000,2500]],
     "criticality_level" : 2
   },
   {
     "taskName" : "T2",
-    "period" : 3000,
-    "deadline" : 3000 ,
-    "WCET" : [2000,1500],
+    "period" : 6000,
+    "deadline" : 6000 ,
+    "WCET" : [3000,4000],
+    "backup_WCET" : [[500,1000],[1000,1500],[1500,2000]],
+    "criticality_level" : 2
+  },
+  {
+    "taskName" : "T3",
+    "period" : 10000,
+    "deadline" : 10000 ,
+    "WCET" : [4000,6000],
     "backup_WCET" : [[500,1000],[1000,1500],[1500,2000]],
     "criticality_level" : 1
+  },
+  {
+    "taskName" : "T4",
+    "period" : 14000,
+    "deadline" : 14000 ,
+    "WCET" : [6000,7000],
+    "backup_WCET" : [[500,1000],[1000,1500],[1500,2000]],
+    "criticality_level" : 2
+  },
+  {
+    "taskName" : "T5",
+    "period" : 15000,
+    "deadline" : 15000 ,
+    "WCET" : [5000,6000],
+    "backup_WCET" : [[500,1000],[1000,1500],[1500,2000]],
+    "criticality_level" : 2
+  },
+
+  {
+    "taskName" : "T6",
+    "period" : 18000,
+    "deadline" : 18000,
+    "WCET" : [4500,5000],
+    "backup_WCET" : [[500,1000],[1000,1500],[1500,2000]],
+    "criticality_level" : 1
+  },
+
+  {
+    "taskName" : "T7",
+    "period" : 22000,
+    "deadline" : 22000 ,
+    "WCET" : [2200,4000],
+    "backup_WCET" : [[500,1000],[1000,1500],[1500,2000]],
+    "criticality_level" : 1
+  },
+
+  {
+    "taskName" : "T8",
+    "period" : 25000,
+    "deadline" : 25000 ,
+    "WCET" : [1500,3000],
+    "backup_WCET" : [[500,1000],[1000,1500],[1500,2000]],
+    "criticality_level" : 2
+  },
+
+  {
+    "taskName" : "T9",
+    "period" : 30000,
+    "deadline" : 30000 ,
+    "WCET" : [4100,5000],
+    "backup_WCET" : [[500,1000],[1000,1500],[1500,2000]],
+    "criticality_level" : 1
+  },
+
+  {
+    "taskName" : "T10",
+    "period" : 35000,
+    "deadline" : 35000 ,
+    "WCET" : [10000,10000],
+    "backup_WCET" : [[500,1000],[1000,1500],[1500,2000]],
+    "criticality_level" : 1
+  },
+
+  {
+    "taskName" : "T11",
+    "period" : 40000,
+    "deadline" : 40000 ,
+    "WCET" : [18000,18000],
+    "backup_WCET" : [[500,1000],[1000,1500],[1500,2000]],
+    "criticality_level" : 1
+  },
+
+  {
+    "taskName" : "T12",
+    "period" : 42000,
+    "deadline" : 42000 ,
+    "WCET" : [18000,21000],
+    "backup_WCET" : [[500,1000],[1000,1500],[1500,2000]],
+    "criticality_level" : 2
+  },
+
+  {
+    "taskName" : "T13",
+    "period" : 45000,
+    "deadline" : 45000 ,
+    "WCET" : [9800,11000],
+    "backup_WCET" : [[500,1000],[1000,1500],[1500,2000]],
+    "criticality_level" : 2
+  },
+
+  {
+    "taskName" : "T14",
+    "period" : 50000,
+    "deadline" : 50000 ,
+    "WCET" : [1800,4000],
+    "backup_WCET" : [[500,1000],[1000,1500],[1500,2000]],
+    "criticality_level" : 1
+  },
+
+  {
+    "taskName" : "T15",
+    "period" : 75000,
+    "deadline" : 75000 ,
+    "WCET" : [11000,14000],
+    "backup_WCET" : [[500,1000],[1000,1500],[1500,2000]],
+    "criticality_level" : 2
   }
+
+
 ]

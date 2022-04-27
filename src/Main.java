@@ -105,6 +105,25 @@ public class Main {
 
         // ************************************************************
 
+        // sending two tasks lists consisting of high critical tasks and low critical tasks.
+
+        List<Processor> new_allocation_list = new ArrayList<>();
+        List<Task> high_criticality_task = new ArrayList<>();
+        List<Task> low_criticality_task = new ArrayList<>();
+        Map<String,Task> tasks_map = new HashMap<>();
+        allocator.new_allocation(high_criticality_task, low_criticality_task,new_allocation_list,tasks_map);
+
+        System.out.println("With Criticality Distributed");
+        for(int i = 0 ; i < new_allocation_list.size() ; i++)
+        {
+            System.out.println("Processor : "+ (i+1));
+            System.out.println("Active Task List : "+new_allocation_list.get(i).active_map);
+            System.out.println("Backup Task List : "+new_allocation_list.get(i).backup_map);
+            System.out.println("#############");
+        }
+
+        // *************************************************************
+
 //                System.out.println(allocatedList);
 
 //        latch = new CountDownLatch(1);
