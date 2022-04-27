@@ -486,7 +486,6 @@ public class Allocator implements Runnable {
 
         }
     }
-
         private void new_Task_Allocation (List < Processor > processors_list, PriorityQueue < Processor > pq,
         int primary, double utilization_ratio, Task task,int backup_task_number)
         {
